@@ -34,11 +34,8 @@ int main() {
     printf("sqlite-light >> ");
 
     read_input(input_buffer);
-    switch (strcmp(input_buffer->buf, ".exit")) {
-      case 0:
-        exit(EXIT_SUCCESS);
-      default:
-        break;
+    if (strcmp(input_buffer->buf, ".exit") == 0) {
+      exit(EXIT_SUCCESS);
     }
   }
   return 0;
