@@ -2,11 +2,14 @@
 
 #include <stdio.h>
 
-ExecuteResult execute_statement(Statement* statement) {
+#include "../common/statement.h"
+#include "../db/db.h"
+
+ExecuteResult execute_statement(Statement* statement, Table* table) {
   switch (statement->type) {
     case STATEMENT_INSERT:
-      printf("We would insert %d %s %s to the table\n", statement->id,
-             statement->name, statement->email);
+      table->rows[table->num_rows] = statement->row;
+      table->num_rows += 1;
       return EXECUTE_SUCCESS;
     case STATEMENT_SELECT:
       printf("This is where we would do a select.\n");
