@@ -3,13 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../common/statement.h"
 #include "../repl/repl.h"
-
-typedef enum { STATEMENT_INSERT, STATEMENT_SELECT } StatementType;
-
-typedef struct {
-  StatementType type;
-} Statement;
 
 typedef enum { PROCESS_SUCCESS, PROCESS_UNKNOWN_STATEMENT } ProcessResult;
 
