@@ -9,8 +9,13 @@ ProcessResult process_input(char* input, Statement* statement) {
     statement->type = STATEMENT_INSERT;
     // for the hard coded table of a user, the syntax of inser is
     // insert <id> <name> <email>
-    sscanf(input, "insert %d %s %s", &statement->row.id, statement->row.name,
-           statement->row.email);
+    int assigned = sscanf(input, "insert %d %s %s", &statement->row.id,
+                          statement->row.name, statement->row.email);
+    if (assigned < 3) {
+      printf("Syntax error. Could not parse all fields.\n");
+      return PROCESS_UNKNOWN_STATEMENT;
+    }
+
     return PROCESS_SUCCESS;
   } else if (strcmp(input, "select") == 0) {
     statement->type = STATEMENT_SELECT;
