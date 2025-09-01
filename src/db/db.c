@@ -10,8 +10,8 @@ Table *new_table() {
 
 // returns the index of where to put row next in the page.
 void *next_row_slot(Table *table) {
-  uint32_t row_offset = table->num_rows % TABLE_MAX_ROWS;
-  uint32_t page_num = table->num_rows / TABLE_MAX_ROWS;
+  uint32_t rows_in_page = table->num_rows % PAGE_MAX_ROWS;
+  uint32_t page_num = table->num_rows / PAGE_MAX_ROWS;
 
   // allocate page if it doesn't exist
   if (table->pages[page_num] == NULL) {
@@ -20,5 +20,5 @@ void *next_row_slot(Table *table) {
 
   // pointer to the row slot
   void *page = table->pages[page_num];
-  return (char *)page + row_offset * ROW_SIZE;
+  return (char *)page + rows_in_page * ROW_SIZE;
 }
