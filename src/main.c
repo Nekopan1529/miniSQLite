@@ -32,7 +32,7 @@ int main() {
     read_input(input_buffer);
 
     Statement statement;
-    ProcessResult result = process_input(input_buffer, &statement);
+    ProcessResult result = process_input(input_buffer->buf, &statement);
 
     if (result == PROCESS_SUCCESS) {
       execute_statement(input_buffer, &statement);
