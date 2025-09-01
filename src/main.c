@@ -5,29 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "parser/parser.h"
 #include "repl/repl.h"
 
-typedef enum { STATEMENT_INSERT, STATEMENT_SELECT } StatementType;
-
-typedef struct {
-  StatementType type;
-} Statement;
-
-typedef enum { PROCESS_SUCCESS, PROCESS_UNKNOWN_STATEMENT } ProcessResult;
-
 typedef enum { EXECUTE_SUCCESS, EXECUTE_FAIL } ExecuteResult;
-
-ProcessResult process_input(InputBuffer* input_buffer, Statement* statement) {
-  if (strcmp(input_buffer->buf, "insert") == 0) {
-    statement->type = STATEMENT_INSERT;
-    return PROCESS_SUCCESS;
-  } else if (strcmp(input_buffer->buf, "select") == 0) {
-    statement->type = STATEMENT_SELECT;
-    return PROCESS_SUCCESS;
-  }
-  printf("Unrecognized command '%s'\n", input_buffer->buf);
-  return PROCESS_UNKNOWN_STATEMENT;
-}
 
 ExecuteResult execute_statement(InputBuffer* input_buffer,
                                 Statement* statement) {
