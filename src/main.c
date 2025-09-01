@@ -12,9 +12,7 @@
 
 int main() {
   InputBuffer* input_buffer = new_input_buffer();
-  Table* table;
-  table = (Table*)malloc(sizeof(Table));
-  table->num_rows = 0;
+  Table* table = new_table();
 
   while (true) {
     printf("sqlite-light >> ");

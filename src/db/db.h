@@ -12,4 +12,6 @@ typedef struct {
   size_t num_rows;
 } Table;
 
+Table *new_table();
+
 #endif
