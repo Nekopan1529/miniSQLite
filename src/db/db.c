@@ -48,7 +48,8 @@ void print_row(void *source) {
 }
 
 void save_table(Table *table) {
-  FILE *fp = fopen("../../db_file.db", "wb");
+  printf("Saving table to disk...\n");
+  FILE *fp = fopen("../db_file.db", "wb");
   if (fp == NULL) {
     printf("Error: Could not open file for writing.\n");
     return;

@@ -22,8 +22,15 @@ int main() {
     ProcessResult result = process_input(input_buffer->buf, &statement);
 
     if (result == PROCESS_SUCCESS) {
-      execute_statement(&statement, table);
+      ExecuteResult res = execute_statement(&statement, table);
+      if (res == EXECUTE_EXIT) {
+        printf("Exiting...\n");
+        break;
+      } else if (res == EXECUTE_FAIL) {
+        printf("Error: Execution failed.\n");
+      }
     }
   }
+
   return 0;
 }

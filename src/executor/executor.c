@@ -23,6 +23,9 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
         print_row(source);
       }
       return EXECUTE_SUCCESS;
+    case EXECUTE_EXIT:
+      save_table(table);
+      return STATEMENT_EXIT;
     default:
       return EXECUTE_FAIL;
   }

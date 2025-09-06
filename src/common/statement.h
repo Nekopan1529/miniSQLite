@@ -1,7 +1,11 @@
 #ifndef STATEMENT_H
 #define STATEMENT_H
 
-typedef enum { STATEMENT_INSERT, STATEMENT_SELECT } StatementType;
+typedef enum {
+  STATEMENT_INSERT,
+  STATEMENT_SELECT,
+  STATEMENT_EXIT
+} StatementType;
 
 // this is a temporary hard coded statement for making the database part work
 
