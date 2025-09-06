@@ -88,7 +88,31 @@ Table *load_db() {
     return table;
   }
 
-  int id;
-  char name[32];
-  char email[255];
+  // get the file size
+  // get the amount of full pages + extra rows in last page
+  // start reading the file page by page
+  fseek(fp, 0, SEEK_END);
+  long file_size = ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+
+  uint32_t full_pages = file_size / PAGE_SIZE;
+  uint32_t extra_bytes = file_size % PAGE_SIZE;
+  uint32_t extra_rows = extra_bytes / ROW_SIZE;
+
+  // Read all full pages
+  for (uint32_t i = 0; i < full_pages; i++) {
+    table->pages[i] = malloc(PAGE_SIZE);
+    fread(table->pages[i], PAGE_SIZE, 1, fp);
+    table->num_rows += PAGE_MAX_ROWS;
+  }
+  // Read the last partial page
+  if (extra_rows > 0) {
+    table->pages[full_pages] = malloc(PAGE_SIZE);
+    fread(table->pages[full_pages], ROW_SIZE, extra_rows, fp);
+    table->num_rows += extra_rows;
+  }
+  fclose(fp);
+  printf("Loaded %d rows from the database.\n", table->num_rows);
+
+  return table;
 }
