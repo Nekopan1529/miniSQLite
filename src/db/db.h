@@ -21,8 +21,9 @@ typedef struct {
 
 Table* new_table();
 void* next_row_slot(Table* table);
-void add_row(Table* table, Statement* statement);
+void add_row(Table* table, Row* row);
 void print_row(void* source);
 void save_table(Table* table);
+Table* load_db();
 
 #endif

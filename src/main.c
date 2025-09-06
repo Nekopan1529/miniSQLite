@@ -12,7 +12,7 @@
 
 int main() {
   InputBuffer* input_buffer = new_input_buffer();
-  Table* table = new_table();
+  Table* table = load_db();
 
   while (true) {
     printf("sqlite-light >> ");

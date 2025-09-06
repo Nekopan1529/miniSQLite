@@ -25,14 +25,13 @@ void *next_row_slot(Table *table) {
   return (char *)page + rows_in_page * ROW_SIZE;
 }
 
-void add_row(Table *table, Statement *statement) {
+void add_row(Table *table, Row *row) {
   void *destination = next_row_slot(table);
 
-  memcpy(destination, &statement->row.id, sizeof(int));
-  memcpy(destination + sizeof(int), statement->row.name,
-         sizeof(statement->row.name));
-  memcpy(destination + sizeof(int) + sizeof(statement->row.name),
-         statement->row.email, sizeof(statement->row.email));
+  memcpy(destination, &row->id, sizeof(int));
+  memcpy(destination + sizeof(int), row->name, sizeof(row->name));
+  memcpy(destination + sizeof(int) + sizeof(row->name), row->email,
+         sizeof(row->email));
 
   table->num_rows += 1;
 }
@@ -76,4 +75,20 @@ void save_table(Table *table) {
   }
 
   fclose(fp);
+}
+
+Table *load_db() {
+  printf("Loading database from disk...\n");
+  FILE *fp = fopen("../db_file.db", "rb");
+
+  Table *table = new_table();
+
+  if (fp == NULL) {
+    printf("No existing database found. Starting fresh.\n");
+    return table;
+  }
+
+  int id;
+  char name[32];
+  char email[255];
 }

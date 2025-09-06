@@ -13,7 +13,7 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
         printf("Error: Table full.\n");
         return EXECUTE_FAIL;
       }
-      add_row(table, statement);
+      add_row(table, &statement->row);
       return EXECUTE_SUCCESS;
 
     case STATEMENT_SELECT:
