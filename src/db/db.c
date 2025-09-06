@@ -46,3 +46,30 @@ void print_row(void *source) {
 
   printf("(%d, %s, %s)\n", id, name, email);
 }
+
+void save_table(Table *table) {
+  FILE *fp = fopen("../../db_file.db", "wb");
+  if (fp == NULL) {
+    printf("Error: Could not open file for writing.\n");
+    return;
+  }
+
+  uint32_t full_pages = table->num_rows / PAGE_MAX_ROWS;
+  uint32_t extra_rows = table->num_rows % PAGE_MAX_ROWS;
+
+  // Write all full pages
+  for (uint32_t i = 0; i < full_pages; i++) {
+    if (table->pages[i] != NULL) {
+      fwrite(table->pages[i], PAGE_SIZE, 1, fp);
+    }
+  }
+
+  // Write the last partial page
+  if (extra_rows > 0) {
+    if (table->pages[full_pages] != NULL) {
+      fwrite(table->pages[full_pages], ROW_SIZE, extra_rows, fp);
+    }
+  }
+
+  fclose(fp);
+}
