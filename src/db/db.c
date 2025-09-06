@@ -27,11 +27,13 @@ void *next_row_slot(Table *table) {
 
 void add_row(Table *table, Statement *statement) {
   void *destination = next_row_slot(table);
+
   memcpy(destination, &statement->row.id, sizeof(int));
   memcpy(destination + sizeof(int), statement->row.name,
          sizeof(statement->row.name));
   memcpy(destination + sizeof(int) + sizeof(statement->row.name),
          statement->row.email, sizeof(statement->row.email));
+
   table->num_rows += 1;
 }
 
@@ -50,6 +52,7 @@ void print_row(void *source) {
 void save_table(Table *table) {
   printf("Saving table to disk...\n");
   FILE *fp = fopen("../db_file.db", "wb");
+
   if (fp == NULL) {
     printf("Error: Could not open file for writing.\n");
     return;

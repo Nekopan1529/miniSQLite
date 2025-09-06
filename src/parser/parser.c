@@ -24,6 +24,7 @@ ProcessResult process_input(char* input, Statement* statement) {
     statement->type = STATEMENT_EXIT;
     return PROCESS_SUCCESS;
   }
+
   printf("Unrecognized command '%s'\n", input);
   return PROCESS_UNKNOWN_STATEMENT;
 }

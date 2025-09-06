@@ -13,19 +13,20 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
         printf("Error: Table full.\n");
         return EXECUTE_FAIL;
       }
-
       add_row(table, statement);
-
       return EXECUTE_SUCCESS;
+
     case STATEMENT_SELECT:
       for (uint32_t i = 0; i < table->num_rows; i++) {
         void* source = next_row_slot(table) - ROW_SIZE * (table->num_rows - i);
         print_row(source);
       }
       return EXECUTE_SUCCESS;
+
     case EXECUTE_EXIT:
       save_table(table);
       return STATEMENT_EXIT;
+
     default:
       return EXECUTE_FAIL;
   }
