@@ -25,6 +25,14 @@ void *next_row_slot(Table *table) {
   return (char *)page + rows_in_page * ROW_SIZE;
 }
 
+void *cursor_location(Cursor *cursor) {
+  uint32_t row = cursor->row_num;
+  uint32_t page_num = row / PAGE_MAX_ROWS;
+  uint32_t row_offset = row % PAGE_MAX_ROWS;
+  void *page = cursor->table->pages[page_num];
+  return (char *)page + row_offset * ROW_SIZE;
+}
+
 void add_row(Table *table, Row *row) {
   void *destination = next_row_slot(table);
 

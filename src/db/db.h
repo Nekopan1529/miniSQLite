@@ -33,6 +33,7 @@ typedef struct {
 
 Cursor* cursor_start(Table* table);
 Cursor* cursor_end(Table* table);
+void* cursor_location(Cursor* cursor);
 
 void print_row(void* source);
 Table* load_db();
