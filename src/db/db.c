@@ -63,8 +63,11 @@ void add_row(Table *table, Row *row) {
 }
 
 void print_all(Table *table) {
-  for (uint32_t i = 0; i < table->num_rows; i++) {
-    void *source = next_row_slot(table) - ROW_SIZE * (table->num_rows - i);
+  Cursor *cursor = cursor_start(table);
+
+  for (uint32_t i = 0; i < cursor->table->num_rows; i++) {
+    void *source = cursor_location(cursor);
+    advance_cursor(cursor);
     print_row(source);
   }
 }
