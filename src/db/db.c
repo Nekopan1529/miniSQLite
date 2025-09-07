@@ -112,7 +112,5 @@ Table *load_db() {
     table->num_rows += extra_rows;
   }
   fclose(fp);
-  printf("Loaded %d rows from the database.\n", table->num_rows);
-
   return table;
 }
