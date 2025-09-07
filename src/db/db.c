@@ -33,6 +33,13 @@ void *cursor_location(Cursor *cursor) {
   return (char *)page + row_offset * ROW_SIZE;
 }
 
+void advance_cursor(Cursor *cursor) {
+  cursor->row_num += 1;
+  if (cursor->row_num >= cursor->table->num_rows) {
+    cursor->end_of_table = true;
+  }
+}
+
 void add_row(Table *table, Row *row) {
   void *destination = next_row_slot(table);
 
