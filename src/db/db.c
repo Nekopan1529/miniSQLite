@@ -30,6 +30,13 @@ void *cursor_location(Cursor *cursor) {
   uint32_t page_num = row / PAGE_MAX_ROWS;
   uint32_t row_offset = row % PAGE_MAX_ROWS;
   void *page = cursor->table->pages[page_num];
+
+  if (page == NULL) {
+    // Allocate page lazily
+    page = malloc(PAGE_SIZE);
+    cursor->table->pages[page_num] = page;
+  }
+
   return (char *)page + row_offset * ROW_SIZE;
 }
 
@@ -41,12 +48,16 @@ void advance_cursor(Cursor *cursor) {
 }
 
 void add_row(Table *table, Row *row) {
-  void *destination = next_row_slot(table);
+  Cursor *cursor = cursor_end(table);
+  printf("Inserting at row number: %d\n", table->num_rows);
+  void *destination = cursor_location(cursor);
+  printf("Destination address: %p\n", destination);
 
   memcpy(destination, &row->id, sizeof(int));
   memcpy(destination + sizeof(int), row->name, sizeof(row->name));
   memcpy(destination + sizeof(int) + sizeof(row->name), row->email,
          sizeof(row->email));
+  free(cursor);
 
   table->num_rows += 1;
 }
