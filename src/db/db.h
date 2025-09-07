@@ -24,6 +24,7 @@ Table* new_table();
 void* next_row_slot(Table* table);
 void add_row(Table* table, Row* row);
 void save_table(Table* table);
+void print_all(Table* table);
 
 typedef struct {
   Table* table;
@@ -37,7 +38,8 @@ void advance_cursor(Cursor* cursor);
 
 void* cursor_location(Cursor* cursor);
 
-void print_row(void* source);
+static void print_row(void* source);
+
 Table* load_db();
 
 #endif

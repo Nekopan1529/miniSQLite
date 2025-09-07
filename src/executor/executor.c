@@ -17,10 +17,7 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       return EXECUTE_SUCCESS;
 
     case STATEMENT_SELECT:
-      for (uint32_t i = 0; i < table->num_rows; i++) {
-        void* source = next_row_slot(table) - ROW_SIZE * (table->num_rows - i);
-        print_row(source);
-      }
+      print_all(table);
       return EXECUTE_SUCCESS;
 
     case EXECUTE_EXIT:

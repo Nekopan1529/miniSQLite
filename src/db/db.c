@@ -62,7 +62,14 @@ void add_row(Table *table, Row *row) {
   table->num_rows += 1;
 }
 
-void print_row(void *source) {
+void print_all(Table *table) {
+  for (uint32_t i = 0; i < table->num_rows; i++) {
+    void *source = next_row_slot(table) - ROW_SIZE * (table->num_rows - i);
+    print_row(source);
+  }
+}
+
+static void print_row(void *source) {
   int id;
   char name[32];
   char email[255];
