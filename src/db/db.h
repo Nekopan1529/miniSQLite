@@ -29,7 +29,10 @@ typedef struct {
   Table* table;
   uint32_t row_num;
   bool end_of_table;
-};
+} Cursor;
+
+Cursor* cursor_start(Table* table);
+Cursor* cursor_end(Table* table);
 
 void print_row(void* source);
 Table* load_db();
