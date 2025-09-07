@@ -1,6 +1,7 @@
 #ifndef DB_H
 #define DB_H
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -19,11 +20,18 @@ typedef struct {
   uint32_t num_rows;
 } Table;
 
-Table* new_table();
+new_table();
 void* next_row_slot(Table* table);
 void add_row(Table* table, Row* row);
-void print_row(void* source);
 void save_table(Table* table);
+
+typedef struct {
+  Table* table;
+  uint32_t row_num;
+  bool end_of_table;
+};
+
+void print_row(void* source);
 Table* load_db();
 
 #endif
