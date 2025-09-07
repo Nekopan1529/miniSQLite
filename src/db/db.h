@@ -20,7 +20,7 @@ typedef struct {
   uint32_t num_rows;
 } Table;
 
-new_table();
+Table* new_table();
 void* next_row_slot(Table* table);
 void add_row(Table* table, Row* row);
 void save_table(Table* table);
