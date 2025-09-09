@@ -7,13 +7,12 @@
 
 #include "../common/statement.h"
 
-// for the paging structure
 #define PAGE_SIZE 4096
-#define TABLE_MAX_PAGES 100
-
-#define ROW_SIZE sizeof(Row)
 #define PAGE_MAX_ROWS (PAGE_SIZE / ROW_SIZE)
+
+#define TABLE_MAX_PAGES 100
 #define TABLE_MAX_ROWS (TABLE_MAX_PAGES * PAGE_SIZE) / ROW_SIZE
+#define ROW_SIZE sizeof(Row)
 
 typedef struct {
   void* pages[TABLE_MAX_PAGES];
@@ -35,7 +34,6 @@ typedef struct {
 Cursor* cursor_start(Table* table);
 Cursor* cursor_end(Table* table);
 void advance_cursor(Cursor* cursor);
-
 void* cursor_location(Cursor* cursor);
 
 static void print_row(void* source);
