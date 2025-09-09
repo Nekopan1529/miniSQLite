@@ -113,6 +113,7 @@ void save_table(Table *table) {
   fclose(fp);
 }
 
+// returns null on failure
 Table *load_db() {
   printf("Loading database from disk...\n");
   FILE *fp = fopen("../db_file.db", "rb");
@@ -144,6 +145,10 @@ Table *load_db() {
   // Read the last partial page
   if (extra_rows > 0) {
     table->pages[full_pages] = malloc(PAGE_SIZE);
+    if (table->pages[full_pages] == NULL) {
+      fclose(fp);
+      return NULL;
+    }
     fread(table->pages[full_pages], ROW_SIZE, extra_rows, fp);
     table->num_rows += extra_rows;
   }

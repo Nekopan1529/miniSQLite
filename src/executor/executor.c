@@ -2,6 +2,7 @@
 
 #include <memory.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "../common/statement.h"
 #include "../db/db.h"
@@ -20,9 +21,10 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       print_all(table);
       return EXECUTE_SUCCESS;
 
-    case EXECUTE_EXIT:
+    case STATEMENT_EXIT:
       save_table(table);
-      return STATEMENT_EXIT;
+      exit(EXIT_SUCCESS);
+      return EXECUTE_SUCCESS;
 
     default:
       return EXECUTE_FAIL;

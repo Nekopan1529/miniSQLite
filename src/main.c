@@ -13,6 +13,10 @@
 int main() {
   InputBuffer* input_buffer = new_input_buffer();
   Table* table = load_db();
+  if (table == NULL) {
+    perror("Failed to load database");
+    exit(EXIT_FAILURE);
+  }
 
   while (true) {
     printf("sqlite-light >> ");
