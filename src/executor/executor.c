@@ -20,8 +20,10 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
     case STATEMENT_SELECT:
       print_all(table);
       return EXECUTE_SUCCESS;
+    case STATEMENT_DELETE:
 
     case STATEMENT_EXIT:
+
       save_table(table);
       exit(EXIT_SUCCESS);
       return EXECUTE_SUCCESS;
