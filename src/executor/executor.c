@@ -21,6 +21,12 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       print_all(table);
       return EXECUTE_SUCCESS;
     case STATEMENT_DELETE:
+      // just for initializing cursor
+      Cursor* cursor = cursor_start(table);
+      cursor->row_num = statement->operand;
+      cursor_delete_row(cursor);
+      free(cursor);
+      return EXECUTE_SUCCESS;
       break;
 
     case STATEMENT_EXIT:

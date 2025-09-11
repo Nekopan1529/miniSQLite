@@ -39,6 +39,7 @@ Cursor* cursor_start(Table* table);
 Cursor* cursor_end(Table* table);
 void advance_cursor(Cursor* cursor);
 void* cursor_location(Cursor* cursor);
+void cursor_delete_row(Cursor* cursor);
 
 static void print_row(void* source);
 

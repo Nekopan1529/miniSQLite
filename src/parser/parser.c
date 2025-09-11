@@ -20,7 +20,7 @@ ProcessResult process_input(char* input, Statement* statement) {
   } else if (strcmp(input, "select") == 0) {
     statement->type = STATEMENT_SELECT;
     return PROCESS_SUCCESS;
-  } else if (strcmp(input, "delete") == 0) {
+  } else if (strncmp(input, "delete", 6) == 0) {
     statement->type = STATEMENT_DELETE;
     int assigned = sscanf(input, "delete %d", &statement->operand);
     if (assigned < 1) {
