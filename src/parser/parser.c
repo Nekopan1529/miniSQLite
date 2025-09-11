@@ -22,6 +22,11 @@ ProcessResult process_input(char* input, Statement* statement) {
     return PROCESS_SUCCESS;
   } else if (strcmp(input, "delete") == 0) {
     statement->type = STATEMENT_DELETE;
+    int assigned = sscanf(input, "delete %d", &statement->operand);
+    if (assigned < 1) {
+      printf("Syntax error. Could not parse id to delete.\n");
+      return PROCESS_UNKNOWN_STATEMENT;
+    }
     return PROCESS_SUCCESS;
   } else if (strcmp(input, ".exit") == 0) {
     statement->type = STATEMENT_EXIT;
