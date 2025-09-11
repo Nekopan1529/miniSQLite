@@ -19,7 +19,7 @@ int main() {
   }
 
   while (true) {
-    printf("sqlite-light >> ");
+    printf("db >> ");
     read_input(input_buffer);
 
     Statement statement;
