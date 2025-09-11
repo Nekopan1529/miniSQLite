@@ -19,6 +19,7 @@ typedef struct {
 typedef struct {
   StatementType type;
   Row row;
+  int operand;  // temporary for delete statement
 } Statement;
 
 #endif

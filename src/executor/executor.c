@@ -21,6 +21,7 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       print_all(table);
       return EXECUTE_SUCCESS;
     case STATEMENT_DELETE:
+      break;
 
     case STATEMENT_EXIT:
 
