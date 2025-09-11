@@ -57,10 +57,12 @@ void add_row(Table *table, Row *row) {
   memcpy(destination + sizeof(int), row->name, sizeof(row->name));
   memcpy(destination + sizeof(int) + sizeof(row->name), row->email,
          sizeof(row->email));
-  free(cursor);
 
   table->num_rows += 1;
+  free(cursor);
 }
+
+// void delete_row()
 
 void print_all(Table *table) {
   Cursor *cursor = cursor_start(table);
@@ -70,6 +72,8 @@ void print_all(Table *table) {
     advance_cursor(cursor);
     print_row(source);
   }
+
+  free(cursor);
 }
 
 static void print_row(void *source) {
