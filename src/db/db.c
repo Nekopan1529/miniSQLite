@@ -62,7 +62,27 @@ void add_row(Table *table, Row *row) {
   free(cursor);
 }
 
-// void delete_row()
+void cursor_delete_row(Cursor *cursor) {
+  void *rowptr = cursor_location(cursor);
+  memset(rowptr, 0, ROW_SIZE);
+
+  cursor->table->num_rows -= 1;
+  bool end_of_table = (cursor->row_num >= cursor->table->num_rows);
+
+  if (end_of_table) {
+    cursor->end_of_table = end_of_table;
+    // if we deleted the last row, just move the cursor to the end
+    cursor->row_num = cursor->table->num_rows;
+  } else {
+    Cursor *end = cursor_end(cursor->table);
+    void *last_row = cursor_location(end);
+    void *empty_row = cursor_location(cursor);
+
+    size_t row_size = (ROW_ID_SIZE + ROW_NAME_SIZE + ROW_EMAIL_SIZE);
+    memcpy(empty_row, last_row, row_size);
+    memset(last_row, 0, row_size);
+  }
+}
 
 void print_all(Table *table) {
   Cursor *cursor = cursor_start(table);
