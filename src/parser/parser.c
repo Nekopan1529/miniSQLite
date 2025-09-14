@@ -15,11 +15,23 @@ ProcessResult process_input(char* input, Statement* statement) {
       printf("Syntax error. Could not parse all fields.\n");
       return PROCESS_UNKNOWN_STATEMENT;
     }
+    return PROCESS_SUCCESS;
+
+  } else if (strncmp(input, "select", 6) == 0) {
+    statement->type = STATEMENT_SELECT;
+    // select <id>
+    // if operand is not given, select all
+    int assigned = sscanf(input, "select %d", &statement->operand);
+
+    if (assigned < 1) {
+      statement->has_operand = false;
+      return PROCESS_SUCCESS;
+    } else {
+      statement->has_operand = true;
+    }
 
     return PROCESS_SUCCESS;
-  } else if (strcmp(input, "select") == 0) {
-    statement->type = STATEMENT_SELECT;
-    return PROCESS_SUCCESS;
+
   } else if (strncmp(input, "delete", 6) == 0) {
     statement->type = STATEMENT_DELETE;
     int assigned = sscanf(input, "delete %d", &statement->operand);
@@ -28,6 +40,7 @@ ProcessResult process_input(char* input, Statement* statement) {
       return PROCESS_UNKNOWN_STATEMENT;
     }
     return PROCESS_SUCCESS;
+
   } else if (strcmp(input, ".exit") == 0) {
     statement->type = STATEMENT_EXIT;
     return PROCESS_SUCCESS;

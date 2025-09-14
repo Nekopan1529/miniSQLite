@@ -37,6 +37,7 @@ typedef struct {
 
 Cursor* cursor_start(Table* table);
 Cursor* cursor_end(Table* table);
+Cursor* cursor_at(Table* table, int id);
 void advance_cursor(Cursor* cursor);
 void* cursor_location(Cursor* cursor);
 void cursor_delete_row(Cursor* cursor);

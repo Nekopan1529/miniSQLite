@@ -18,7 +18,11 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       return EXECUTE_SUCCESS;
 
     case STATEMENT_SELECT:
-      print_all(table);
+
+      if (statement->has_operand == false) {
+        print_all(table);
+      }
+
       return EXECUTE_SUCCESS;
     case STATEMENT_DELETE:
       // just for initializing cursor

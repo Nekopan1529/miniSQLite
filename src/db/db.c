@@ -94,6 +94,25 @@ void cursor_delete_row(Cursor *cursor) {
   }
 }
 
+// return a cursor at the row with the given id
+Cursor *cursor_at(Table *table, int target_id) {
+  Cursor *cursor = cursor_start(table);
+
+  for (uint32_t i = 0; i < cursor->table->num_rows; i++) {
+    void *source = cursor_location(cursor);
+    int tmp_id;
+    memcpy(&tmp_id, source, sizeof(int));
+
+    if (tmp_id == target_id) {
+      break;
+    }
+
+    advance_cursor(cursor);
+  }
+  printf("found the row");
+  return cursor;
+}
+
 // print all rows in the table
 void print_all(Table *table) {
   Cursor *cursor = cursor_start(table);
