@@ -30,6 +30,7 @@ void save_table(Table* table);
 void print_all(Table* table);
 void print_row_by_id(Table* table, int id);
 void delete_row_by_id(Table* table, int id);
+void modify_row_by_id(Table* table, int id, char name[32], char email[255]);
 
 typedef struct {
   Table* table;

@@ -119,6 +119,14 @@ static void cursor_modify_row(Cursor *cursor, char name[32], char email[255]) {
   return;
 }
 
+void modify_row_by_id(Table *table, int id, char name[32], char email[255]) {
+  Cursor *cursor = cursor_at(table, id);
+
+  cursor_modify_row(cursor, name, email);
+
+  return;
+}
+
 void delete_row_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
   if (cursor == NULL) {
