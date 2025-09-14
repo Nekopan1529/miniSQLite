@@ -7,6 +7,7 @@
 // create a new table
 Table *new_table() {
   Table *table = (Table *)malloc(sizeof(Table));
+  table->pages[0] = NULL;
   table->num_rows = 0;
   return table;
 }
@@ -29,7 +30,7 @@ void *next_row_slot(Table *table) {
 // return the memory address of the row at the cursor position
 void *cursor_location(Cursor *cursor) {
   uint32_t row = cursor->row_num;
-  if (row >= cursor->table->num_rows) {
+  if (row > cursor->table->num_rows) {
     printf("Error: Cursor out of bounds.\n");
     exit(EXIT_FAILURE);
   }
