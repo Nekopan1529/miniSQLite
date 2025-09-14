@@ -77,13 +77,13 @@ Once running, you can enter commands at the prompt:
 ```
 miniSQLite/
 ├── src/                # Source code directory
-│   ├── main.c          # Entry point of the application
+│   ├── main.c           
 │   ├── repl/           # REPL (Read-Eval-Print Loop) logic
 │   ├── parser/         # SQL command parsing logic
 │   ├── executor/       # Command execution logic
-│   └── db/             # Database file handling
+│   └── db/             # Database logic such as insert and persistence of data
 ├── db_file.db          # Database file (created at runtime)
-├── CMakeLists.txt      # CMake build configuration
+├── CMakeLists.txt      # build configuration
 ├── README.md           # Project documentation
 └──
 ```
