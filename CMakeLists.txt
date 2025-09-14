@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(miniSQLite)
+project(miniSQLite C)
 
 add_executable(main "")  # Create an empty executable first
 
@@ -11,3 +11,7 @@ target_sources(main PRIVATE
     src/executor/executor.c
     src/db/db.c
 )
+
+set_target_properties(main PROPERTIES C_STANDARD 23)
+
+set_target_properties(main PROPERTIES C_STANDARD_REQUIRED ON)
