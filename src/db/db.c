@@ -112,6 +112,13 @@ static Cursor *cursor_at(Table *table, int target_id) {
   return cursor;
 }
 
+void delete_row_by_id(Table *table, int id) {
+  Cursor *cursor = cursor_at(table, id);
+  cursor_delete_row(cursor);
+
+  return;
+}
+
 void print_row_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
   void *row = cursor_location(cursor);

@@ -26,12 +26,7 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
 
       return EXECUTE_SUCCESS;
     case STATEMENT_DELETE:
-      // just for initializing cursor
-      Cursor* cursor = cursor_start(table);
-      // setting the cursor to the row number to be deleted
-      cursor->row_num = statement->operand;
-      cursor_delete_row(cursor);
-      free(cursor);
+      delete_row_by_id(table, statement->operand);
       return EXECUTE_SUCCESS;
       break;
 

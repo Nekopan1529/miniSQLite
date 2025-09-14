@@ -29,6 +29,7 @@ void add_row(Table* table, Row* row);
 void save_table(Table* table);
 void print_all(Table* table);
 void print_row_by_id(Table* table, int id);
+void delete_row_by_id(Table* table, int id);
 
 typedef struct {
   Table* table;
