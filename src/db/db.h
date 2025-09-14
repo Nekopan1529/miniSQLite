@@ -37,12 +37,12 @@ typedef struct {
   bool end_of_table;
 } Cursor;
 
-Cursor* cursor_start(Table* table);
-Cursor* cursor_end(Table* table);
+static Cursor* cursor_start(Table* table);
+static Cursor* cursor_end(Table* table);
 static Cursor* cursor_at(Table* table, int id);
 static void advance_cursor(Cursor* cursor);
 static void* cursor_location(Cursor* cursor);
-void cursor_delete_row(Cursor* cursor);
+static void cursor_delete_row(Cursor* cursor);
 
 static void print_row(void* source);
 

@@ -72,7 +72,7 @@ void add_row(Table *table, Row *row) {
 }
 
 // delete the row at the cursor position
-void cursor_delete_row(Cursor *cursor) {
+static void cursor_delete_row(Cursor *cursor) {
   void *rowptr = cursor_location(cursor);
   memset(rowptr, 0, ROW_SIZE);
 
@@ -227,7 +227,7 @@ Table *load_db() {
 }
 
 // create a cursor at the start of the table
-Cursor *cursor_start(Table *table) {
+static Cursor *cursor_start(Table *table) {
   Cursor *cursor = (Cursor *)malloc(sizeof(Cursor));
   cursor->table = table;
   cursor->row_num = 0;
@@ -236,7 +236,7 @@ Cursor *cursor_start(Table *table) {
 }
 
 // create a cursor at the end of the table
-Cursor *cursor_end(Table *table) {
+static Cursor *cursor_end(Table *table) {
   Cursor *cursor = (Cursor *)malloc(sizeof(Cursor));
   cursor->table = table;
   cursor->row_num = table->num_rows;
