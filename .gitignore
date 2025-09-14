@@ -1,4 +1,6 @@
 bin/
 build/
 .vscode/
+
+# Ignore the database file
 db_file.db
