@@ -94,7 +94,7 @@ static void cursor_delete_row(Cursor *cursor) {
   }
 }
 
-// return a cursor at the row with the given id
+// return a cursor at the row with the given id. Return NULL if not found
 static Cursor *cursor_at(Table *table, int target_id) {
   Cursor *cursor = cursor_start(table);
 
@@ -104,16 +104,20 @@ static Cursor *cursor_at(Table *table, int target_id) {
     memcpy(&tmp_id, source, sizeof(int));
 
     if (tmp_id == target_id) {
-      break;
+      return cursor;
     }
 
     advance_cursor(cursor);
   }
-  return cursor;
+  return NULL;
 }
 
 void delete_row_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
+  if (cursor == NULL) {
+    printf("Error: Row with id %d not found.\n", id);
+    return;
+  }
   cursor_delete_row(cursor);
 
   return;
@@ -121,6 +125,10 @@ void delete_row_by_id(Table *table, int id) {
 
 void print_row_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
+  if (cursor == NULL) {
+    printf("Error: Row with id %d not found.\n", id);
+    return;
+  }
   void *row = cursor_location(cursor);
   print_row(row);
 
