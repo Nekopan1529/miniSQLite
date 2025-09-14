@@ -35,6 +35,10 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       save_table(table);
       exit(EXIT_SUCCESS);
       return EXECUTE_SUCCESS;
+    case STATEMENT_MODIFY:
+      modify_row_by_id(table, statement->operand, statement->row.name,
+                       statement->row.email);
+      return EXECUTE_SUCCESS;
 
     default:
       return EXECUTE_FAIL;

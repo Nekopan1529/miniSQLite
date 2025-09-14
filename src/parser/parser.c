@@ -44,6 +44,15 @@ ProcessResult process_input(char* input, Statement* statement) {
   } else if (strcmp(input, ".exit") == 0) {
     statement->type = STATEMENT_EXIT;
     return PROCESS_SUCCESS;
+  } else if (strncmp(input, "modify", 6) == 0) {
+    statement->type = STATEMENT_MODIFY;
+    int assigned = sscanf(input, "modify %d %s %s", &statement->operand,
+                          statement->row.name, statement->row.email);
+    if (assigned < 3) {
+      printf("Syntax error. Could not parse id to delete.\n");
+      return PROCESS_UNKNOWN_STATEMENT;
+    }
+    return PROCESS_SUCCESS;
   }
 
   printf("Unrecognized command '%s'\n", input);

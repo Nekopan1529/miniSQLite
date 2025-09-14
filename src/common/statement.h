@@ -8,6 +8,7 @@ typedef enum {
   STATEMENT_SELECT,
   STATEMENT_EXIT,
   STATEMENT_DELETE,
+  STATEMENT_MODIFY,
 } StatementType;
 
 // this is a temporary hard coded statement for making the database part work
