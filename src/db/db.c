@@ -112,6 +112,13 @@ static Cursor *cursor_at(Table *table, int target_id) {
   return NULL;
 }
 
+static void cursor_modify_row(Cursor *cursor, char name[32], char email[255]) {
+  void *location = cursor_location(cursor);
+  memcpy(location + sizeof(int), name, ROW_NAME_SIZE);
+  memcpy(location + sizeof(int) + ROW_NAME_SIZE, email, ROW_EMAIL_SIZE);
+  return;
+}
+
 void delete_row_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
   if (cursor == NULL) {

@@ -43,6 +43,7 @@ static Cursor* cursor_at(Table* table, int id);
 static void advance_cursor(Cursor* cursor);
 static void* cursor_location(Cursor* cursor);
 static void cursor_delete_row(Cursor* cursor);
+static void cursor_modify_row(Cursor* cursor, char name[32], char email[255]);
 
 static void print_row(void* source);
 
