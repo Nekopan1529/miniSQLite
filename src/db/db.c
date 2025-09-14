@@ -28,7 +28,7 @@ void *next_row_slot(Table *table) {
 }
 
 // return the memory address of the row at the cursor position
-void *cursor_location(Cursor *cursor) {
+static void *cursor_location(Cursor *cursor) {
   uint32_t row = cursor->row_num;
   if (row > cursor->table->num_rows) {
     printf("Error: Cursor out of bounds.\n");
@@ -48,7 +48,7 @@ void *cursor_location(Cursor *cursor) {
 }
 
 // advance the cursor to the next row
-void advance_cursor(Cursor *cursor) {
+static void advance_cursor(Cursor *cursor) {
   cursor->row_num += 1;
   if (cursor->row_num >= cursor->table->num_rows) {
     cursor->end_of_table = true;
@@ -95,7 +95,7 @@ void cursor_delete_row(Cursor *cursor) {
 }
 
 // return a cursor at the row with the given id
-Cursor *cursor_at(Table *table, int target_id) {
+static Cursor *cursor_at(Table *table, int target_id) {
   Cursor *cursor = cursor_start(table);
 
   for (uint32_t i = 0; i < cursor->table->num_rows; i++) {
@@ -109,8 +109,15 @@ Cursor *cursor_at(Table *table, int target_id) {
 
     advance_cursor(cursor);
   }
-  printf("found the row");
   return cursor;
+}
+
+void print_row_by_id(Table *table, int id) {
+  Cursor *cursor = cursor_at(table, id);
+  void *row = cursor_location(cursor);
+  print_row(row);
+
+  return;
 }
 
 // print all rows in the table

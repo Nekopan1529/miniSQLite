@@ -28,6 +28,7 @@ void* next_row_slot(Table* table);
 void add_row(Table* table, Row* row);
 void save_table(Table* table);
 void print_all(Table* table);
+void print_row_by_id(Table* table, int id);
 
 typedef struct {
   Table* table;
@@ -37,9 +38,9 @@ typedef struct {
 
 Cursor* cursor_start(Table* table);
 Cursor* cursor_end(Table* table);
-Cursor* cursor_at(Table* table, int id);
-void advance_cursor(Cursor* cursor);
-void* cursor_location(Cursor* cursor);
+static Cursor* cursor_at(Table* table, int id);
+static void advance_cursor(Cursor* cursor);
+static void* cursor_location(Cursor* cursor);
 void cursor_delete_row(Cursor* cursor);
 
 static void print_row(void* source);

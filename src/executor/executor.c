@@ -18,9 +18,10 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       return EXECUTE_SUCCESS;
 
     case STATEMENT_SELECT:
-
       if (statement->has_operand == false) {
         print_all(table);
+      } else {
+        print_row_by_id(table, statement->operand);
       }
 
       return EXECUTE_SUCCESS;
