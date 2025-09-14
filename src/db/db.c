@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// create a new table
 Table *new_table() {
   Table *table = (Table *)malloc(sizeof(Table));
   table->num_rows = 0;
@@ -25,6 +26,7 @@ void *next_row_slot(Table *table) {
   return (char *)page + rows_in_page * ROW_SIZE;
 }
 
+// return the memory address of the row at the cursor position
 void *cursor_location(Cursor *cursor) {
   uint32_t row = cursor->row_num;
   uint32_t page_num = row / PAGE_MAX_ROWS;
@@ -40,6 +42,7 @@ void *cursor_location(Cursor *cursor) {
   return (char *)page + row_offset * ROW_SIZE;
 }
 
+// advance the cursor to the next row
 void advance_cursor(Cursor *cursor) {
   cursor->row_num += 1;
   if (cursor->row_num >= cursor->table->num_rows) {
@@ -47,6 +50,7 @@ void advance_cursor(Cursor *cursor) {
   }
 }
 
+// add a row to the table
 void add_row(Table *table, Row *row) {
   Cursor *cursor = cursor_end(table);
   printf("Inserting at row number: %d\n", table->num_rows);
@@ -62,6 +66,7 @@ void add_row(Table *table, Row *row) {
   free(cursor);
 }
 
+// delete the row at the cursor position
 void cursor_delete_row(Cursor *cursor) {
   void *rowptr = cursor_location(cursor);
   memset(rowptr, 0, ROW_SIZE);
@@ -84,6 +89,7 @@ void cursor_delete_row(Cursor *cursor) {
   }
 }
 
+// print all rows in the table
 void print_all(Table *table) {
   Cursor *cursor = cursor_start(table);
 
@@ -96,6 +102,7 @@ void print_all(Table *table) {
   free(cursor);
 }
 
+// print a single row
 static void print_row(void *source) {
   int id;
   char name[32];
@@ -108,6 +115,7 @@ static void print_row(void *source) {
   printf("(%d, %s, %s)\n", id, name, email);
 }
 
+// Save the table to disk
 void save_table(Table *table) {
   printf("Saving table to disk...\n");
   FILE *fp = fopen("../db_file.db", "wb");
@@ -180,6 +188,7 @@ Table *load_db() {
   return table;
 }
 
+// create a cursor at the start of the table
 Cursor *cursor_start(Table *table) {
   Cursor *cursor = (Cursor *)malloc(sizeof(Cursor));
   cursor->table = table;
@@ -188,6 +197,7 @@ Cursor *cursor_start(Table *table) {
   return cursor;
 }
 
+// create a cursor at the end of the table
 Cursor *cursor_end(Table *table) {
   Cursor *cursor = (Cursor *)malloc(sizeof(Cursor));
   cursor->table = table;
