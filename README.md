@@ -59,13 +59,15 @@ Once running, you can enter commands at the prompt:
     ```
     insert <id> <name> <email>
     ```
-- Select all rows(it just prints the entire db at the moment):
+- Select row and print it. If id is not given, print all rows:
     ```
+    select <id>
+
     select
     ```
-- Delete a row:
+- Delete a row by id:
     ```
-    delete <row_index>
+    delete <id>
     ```
 - Exit:
     ```
