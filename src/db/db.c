@@ -29,6 +29,10 @@ void *next_row_slot(Table *table) {
 // return the memory address of the row at the cursor position
 void *cursor_location(Cursor *cursor) {
   uint32_t row = cursor->row_num;
+  if (row >= cursor->table->num_rows) {
+    printf("Error: Cursor out of bounds.\n");
+    exit(EXIT_FAILURE);
+  }
   uint32_t page_num = row / PAGE_MAX_ROWS;
   uint32_t row_offset = row % PAGE_MAX_ROWS;
   void *page = cursor->table->pages[page_num];

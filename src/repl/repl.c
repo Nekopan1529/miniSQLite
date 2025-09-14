@@ -6,6 +6,8 @@
 
 InputBuffer* new_input_buffer() {
   InputBuffer* input_buffer = (InputBuffer*)malloc(sizeof(InputBuffer));
+  input_buffer->buf = NULL;
+  input_buffer->len = 0;
   return input_buffer;
 }
 
