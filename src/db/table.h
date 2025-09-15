@@ -2,10 +2,11 @@
 #define TABLE_H
 #include <stdint.h>
 
+#include "pager.h"
 #include "size.h"
 
 typedef struct {
-  void* pages[TABLE_MAX_PAGES];
+  Pager* pager;
   uint32_t num_rows;
 } Table;
 
