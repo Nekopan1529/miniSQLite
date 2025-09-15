@@ -11,5 +11,6 @@ typedef struct {
 } Table;
 
 Table* table_new_table();
+void table_free(Table* table);
 
 #endif

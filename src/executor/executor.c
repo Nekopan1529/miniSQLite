@@ -31,9 +31,9 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       break;
 
     case STATEMENT_EXIT:
-
       db_save_table(table);
       exit(EXIT_SUCCESS);
+
       return EXECUTE_SUCCESS;
     case STATEMENT_MODIFY:
       Row* row = (Row*)malloc(sizeof(Row));
