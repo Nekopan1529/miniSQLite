@@ -45,7 +45,10 @@ void* pager_get_page(Pager* pager, uint32_t page_num) {
 
     // Determine number of pages in the file
     uint32_t num_pages = pager->file_length / PAGE_SIZE;
-    if (pager->file_length % PAGE_SIZE) num_pages++;
+
+    // if this is not 0, that means there is a partial page which should be
+    // accounted for
+    if (pager->file_length % PAGE_SIZE != 0) num_pages++;
 
     if (page_num < num_pages) {
       fseek(pager->fp, page_num * PAGE_SIZE, SEEK_SET);
@@ -76,22 +79,25 @@ void pager_flush(Pager* pager, uint32_t page_num, uint32_t num_rows) {
 
   fseek(pager->fp, page_num * PAGE_SIZE, SEEK_SET);
 
-  // Calculate how many bytes to write
-  uint32_t rows_in_page = PAGE_MAX_ROWS;
-  if ((page_num + 1) * PAGE_MAX_ROWS > num_rows) {
-    rows_in_page = num_rows % PAGE_MAX_ROWS;
+  uint32_t rows_in_page = num_rows % PAGE_MAX_ROWS;
+
+  // if it is 0 that means it is not a partial page
+  if (rows_in_page == 0) {
+    rows_in_page = PAGE_MAX_ROWS;
   }
 
   size_t bytes_to_write = rows_in_page * ROW_SIZE;
-  if (bytes_to_write == 0) bytes_to_write = PAGE_SIZE;  // full page
 
   fwrite(pager->pages[page_num], 1, bytes_to_write, pager->fp);
 }
 
 void pager_close(Pager* pager, uint32_t num_rows) {
-  uint32_t total_pages = (num_rows + PAGE_MAX_ROWS - 1) / PAGE_MAX_ROWS;
+  uint32_t num_pages = num_rows / PAGE_MAX_ROWS;
+  if (num_rows % PAGE_MAX_ROWS) {
+    num_pages++;
+  }
 
-  for (uint32_t i = 0; i < total_pages; i++) {
+  for (uint32_t i = 0; i < num_pages; i++) {
     if (pager->pages[i] != NULL) {
       pager_flush(pager, i, num_rows);
       free(pager->pages[i]);
