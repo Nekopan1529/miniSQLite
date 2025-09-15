@@ -30,6 +30,8 @@ Pager* pager_open(const char* filename) {
   return pager;
 }
 
+/* checks if the page is in memory: If yes → return it. If no → allocate memory,
+ read from disk (or zero it if the page is new), then return it. */
 void* pager_get_page(Pager* pager, uint32_t page_num) {
   if (page_num >= TABLE_MAX_PAGES) {
     printf("Page number out of bounds. %d > %d\n", page_num, TABLE_MAX_PAGES);
@@ -61,6 +63,11 @@ void* pager_get_page(Pager* pager, uint32_t page_num) {
   return pager->pages[page_num];
 }
 
+/*When you want to save changes, the pager writes pages back to disk using
+pager_flush().
+
+Only the parts of the page that actually contain rows need to be saved (last
+partial page might not be full).*/
 void pager_flush(Pager* pager, uint32_t page_num, uint32_t num_rows) {
   if (pager->pages[page_num] == NULL) {
     printf("Tried to flush null page\n");
