@@ -41,6 +41,8 @@ void delete_row_by_id(Table *table, int id) {
   }
   cursor_delete_row(cursor);
 
+  free(cursor);
+
   return;
 }
 
@@ -52,6 +54,8 @@ void print_row_by_id(Table *table, int id) {
   }
   void *row = cursor_location(cursor);
   print_row(row);
+
+  free(cursor);
 
   return;
 }

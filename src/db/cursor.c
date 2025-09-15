@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // create a cursor at the start of the table
 Cursor *cursor_start(Table *table) {
