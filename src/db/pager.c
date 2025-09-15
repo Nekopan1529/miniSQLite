@@ -100,6 +100,12 @@ void pager_close(Pager* pager, uint32_t num_rows) {
   for (uint32_t i = 0; i < num_pages; i++) {
     if (pager->pages[i] != NULL) {
       pager_flush(pager, i, num_rows);
+      pager->pages[i] = NULL;
+    }
+  }
+
+  for (uint32_t i = 0; i < TABLE_MAX_PAGES; i++) {
+    if (pager->pages[i] != NULL) {
       free(pager->pages[i]);
       pager->pages[i] = NULL;
     }
