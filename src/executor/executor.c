@@ -44,6 +44,7 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       // modifies the row in the table with the id in row
       // changes that row to row->name and row->email
       modify_row_by_id(table, row);
+      free(row);
       return EXECUTE_SUCCESS;
 
     default:

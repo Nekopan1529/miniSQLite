@@ -128,6 +128,7 @@ void modify_row_by_id(Table *table, Row *row) {
 
   cursor_modify_row(cursor, row);
 
+  free(cursor);
   return;
 }
 
