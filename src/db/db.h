@@ -30,7 +30,7 @@ void save_table(Table* table);
 void print_all(Table* table);
 void print_row_by_id(Table* table, int id);
 void delete_row_by_id(Table* table, int id);
-void modify_row_by_id(Table* table, int id, char name[32], char email[255]);
+void modify_row_by_id(Table* table, Row* row);
 
 typedef struct {
   Table* table;
@@ -44,7 +44,7 @@ static Cursor* cursor_at(Table* table, int id);
 static void advance_cursor(Cursor* cursor);
 static void* cursor_location(Cursor* cursor);
 static void cursor_delete_row(Cursor* cursor);
-static void cursor_modify_row(Cursor* cursor, char name[32], char email[255]);
+static void cursor_modify_row(Cursor* cursor, Row* row);
 
 static void print_row(void* source);
 

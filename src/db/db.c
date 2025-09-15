@@ -112,17 +112,21 @@ static Cursor *cursor_at(Table *table, int target_id) {
   return NULL;
 }
 
-static void cursor_modify_row(Cursor *cursor, char name[32], char email[255]) {
+static void cursor_modify_row(Cursor *cursor, Row *row) {
   void *location = cursor_location(cursor);
-  memcpy(location + sizeof(int), name, ROW_NAME_SIZE);
-  memcpy(location + sizeof(int) + ROW_NAME_SIZE, email, ROW_EMAIL_SIZE);
+  memcpy(location + sizeof(int), row->name, ROW_NAME_SIZE);
+  memcpy(location + sizeof(int) + ROW_NAME_SIZE, row->email, ROW_EMAIL_SIZE);
   return;
 }
 
-void modify_row_by_id(Table *table, int id, char name[32], char email[255]) {
-  Cursor *cursor = cursor_at(table, id);
+void modify_row_by_id(Table *table, Row *row) {
+  Cursor *cursor = cursor_at(table, row->id);
+  if (cursor == NULL) {
+    printf("Error: Row with id %d not found.\n", row->id);
+    return;
+  }
 
-  cursor_modify_row(cursor, name, email);
+  cursor_modify_row(cursor, row);
 
   return;
 }

@@ -36,8 +36,14 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
       exit(EXIT_SUCCESS);
       return EXECUTE_SUCCESS;
     case STATEMENT_MODIFY:
-      modify_row_by_id(table, statement->operand, statement->row.name,
-                       statement->row.email);
+      Row* row = (Row*)malloc(sizeof(Row));
+      row->id = statement->operand;
+      memcpy(row->name, statement->row.name, sizeof(statement->row.name));
+      memcpy(row->email, statement->row.email, sizeof(statement->row.email));
+
+      // modifies the row in the table with the id in row
+      // changes that row to row->name and row->email
+      modify_row_by_id(table, row);
       return EXECUTE_SUCCESS;
 
     default:
