@@ -5,15 +5,15 @@
 #include "cursor.h"
 #include "table.h"
 
-void add_row(Table* table, Row* row);
-void save_table(Table* table);
-void print_all(Table* table);
-void print_row_by_id(Table* table, int id);
-void delete_row_by_id(Table* table, int id);
-void modify_row_by_id(Table* table, Row* row);
+void db_insert_row(Table* table, Row* row);
+void db_save_table(Table* table);
+void db_select_all(Table* table);
+void db_select_by_id(Table* table, int id);
+void db_delete_row_by_id(Table* table, int id);
+void db_modify_by_id(Table* table, Row* row);
 
 static void print_row(void* source);
 
-Table* load_db();
+Table* db_load();
 
 #endif

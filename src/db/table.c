@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 // create a new table
-Table *new_table() {
+Table *table_new_table() {
   Table *table = (Table *)malloc(sizeof(Table));
   table->pages[0] = NULL;
   table->num_rows = 0;

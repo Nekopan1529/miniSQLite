@@ -12,7 +12,7 @@
 
 int main() {
   InputBuffer* input_buffer = new_input_buffer();
-  Table* table = load_db();
+  Table* table = db_load();
   if (table == NULL) {
     perror("Failed to load database");
     exit(EXIT_FAILURE);

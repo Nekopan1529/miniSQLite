@@ -14,25 +14,25 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
         printf("Error: Table full.\n");
         return EXECUTE_FAIL;
       }
-      add_row(table, &statement->row);
+      db_insert_row(table, &statement->row);
       return EXECUTE_SUCCESS;
 
     case STATEMENT_SELECT:
       if (statement->has_operand == false) {
-        print_all(table);
+        db_select_all(table);
       } else {
-        print_row_by_id(table, statement->operand);
+        db_select_by_id(table, statement->operand);
       }
 
       return EXECUTE_SUCCESS;
     case STATEMENT_DELETE:
-      delete_row_by_id(table, statement->operand);
+      db_delete_row_by_id(table, statement->operand);
       return EXECUTE_SUCCESS;
       break;
 
     case STATEMENT_EXIT:
 
-      save_table(table);
+      db_save_table(table);
       exit(EXIT_SUCCESS);
       return EXECUTE_SUCCESS;
     case STATEMENT_MODIFY:
@@ -43,7 +43,7 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
 
       // modifies the row in the table with the id in row
       // changes that row to row->name and row->email
-      modify_row_by_id(table, row);
+      db_modify_by_id(table, row);
       free(row);
       return EXECUTE_SUCCESS;
 

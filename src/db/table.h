@@ -9,7 +9,7 @@ typedef struct {
   uint32_t num_rows;
 } Table;
 
-Table* new_table();
+Table* table_new_table();
 void* next_row_slot(Table* table);
 
 #endif

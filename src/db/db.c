@@ -5,7 +5,7 @@
 #include <string.h>
 
 // add a row to the table
-void add_row(Table *table, Row *row) {
+void db_insert_row(Table *table, Row *row) {
   Cursor *cursor = cursor_end(table);
   printf("Inserting at row number: %d\n", table->num_rows);
   void *destination = cursor_location(cursor);
@@ -19,7 +19,7 @@ void add_row(Table *table, Row *row) {
   free(cursor);
 }
 
-void modify_row_by_id(Table *table, Row *row) {
+void db_modify_by_id(Table *table, Row *row) {
   Cursor *cursor = cursor_at(table, row->id);
   if (cursor == NULL) {
     printf("Error: Row with id %d not found.\n", row->id);
@@ -32,7 +32,7 @@ void modify_row_by_id(Table *table, Row *row) {
   return;
 }
 
-void delete_row_by_id(Table *table, int id) {
+void db_delete_row_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
   if (cursor == NULL) {
     printf("Error: Row with id %d not found.\n", id);
@@ -45,7 +45,7 @@ void delete_row_by_id(Table *table, int id) {
   return;
 }
 
-void print_row_by_id(Table *table, int id) {
+void db_select_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
   if (cursor == NULL) {
     printf("Error: Row with id %d not found.\n", id);
@@ -60,7 +60,7 @@ void print_row_by_id(Table *table, int id) {
 }
 
 // print all rows in the table
-void print_all(Table *table) {
+void db_select_all(Table *table) {
   Cursor *cursor = cursor_start(table);
 
   for (uint32_t i = 0; i < cursor->table->num_rows; i++) {
@@ -86,7 +86,7 @@ static void print_row(void *source) {
 }
 
 // Save the table to disk
-void save_table(Table *table) {
+void db_save_table(Table *table) {
   printf("Saving table to disk...\n");
   FILE *fp = fopen("../db_file.db", "wb");
 
@@ -116,11 +116,11 @@ void save_table(Table *table) {
 }
 
 // returns null on failure
-Table *load_db() {
+Table *db_load() {
   printf("Loading database from disk...\n");
   FILE *fp = fopen("../db_file.db", "rb");
 
-  Table *table = new_table();
+  Table *table = table_new_table();
 
   if (fp == NULL) {
     printf("No existing database found. Starting fresh.\n");
