@@ -23,8 +23,8 @@ typedef struct {
   uint32_t num_rows;
 } Table;
 
-Table* new_table();
-void* next_row_slot(Table* table);
+static Table* new_table();
+static void* next_row_slot(Table* table);
 void add_row(Table* table, Row* row);
 void save_table(Table* table);
 void print_all(Table* table);

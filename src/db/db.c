@@ -5,7 +5,7 @@
 #include <string.h>
 
 // create a new table
-Table *new_table() {
+static Table *new_table() {
   Table *table = (Table *)malloc(sizeof(Table));
   table->pages[0] = NULL;
   table->num_rows = 0;
@@ -13,7 +13,7 @@ Table *new_table() {
 }
 
 // returns the index of where to put row next in the page.
-void *next_row_slot(Table *table) {
+static void *next_row_slot(Table *table) {
   uint32_t rows_in_page = table->num_rows % PAGE_MAX_ROWS;
   uint32_t page_num = table->num_rows / PAGE_MAX_ROWS;
 
