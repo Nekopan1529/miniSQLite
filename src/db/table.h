@@ -10,6 +10,5 @@ typedef struct {
 } Table;
 
 Table* table_new_table();
-void* next_row_slot(Table* table);
 
 #endif
