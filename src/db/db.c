@@ -65,7 +65,7 @@ void db_select_all(Table *table) {
 
   for (uint32_t i = 0; i < cursor->table->num_rows; i++) {
     void *source = cursor_location(cursor);
-    advance_cursor(cursor);
+    cursor_advance(cursor);
     print_row(source);
   }
 
