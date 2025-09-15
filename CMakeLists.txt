@@ -12,6 +12,7 @@ target_sources(main PRIVATE
     src/db/db.c
     src/db/table.c
     src/db/cursor.c
+    src/db/pager.c
 )
 
 if(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")

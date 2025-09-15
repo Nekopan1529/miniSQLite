@@ -7,9 +7,7 @@
 // add a row to the table
 void db_insert_row(Table *table, Row *row) {
   Cursor *cursor = cursor_end(table);
-  printf("Inserting at row number: %d\n", table->num_rows);
-  void *destination = cursor_location(cursor);
-  printf("Destination address: %p\n", destination);
+  void *destination = cursor_location(cursor);  // uses get_page internally
 
   memcpy(destination, &row->id, ROW_ID_SIZE);
   memcpy(destination + ROW_ID_SIZE, row->name, ROW_NAME_SIZE);
@@ -21,52 +19,46 @@ void db_insert_row(Table *table, Row *row) {
 
 void db_modify_by_id(Table *table, Row *row) {
   Cursor *cursor = cursor_at(table, row->id);
-  if (cursor == NULL) {
+  if (!cursor) {
     printf("Error: Row with id %d not found.\n", row->id);
     return;
   }
 
-  cursor_modify_row(cursor, row);
-
+  cursor_modify_row(cursor, row);  // uses cursor_location internally
   free(cursor);
-  return;
 }
 
 void db_delete_row_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
-  if (cursor == NULL) {
+  if (!cursor) {
     printf("Error: Row with id %d not found.\n", id);
     return;
   }
-  cursor_delete_row(cursor);
 
+  cursor_delete_row(cursor);  // uses cursor_location internally
   free(cursor);
-
-  return;
 }
 
 void db_select_by_id(Table *table, int id) {
   Cursor *cursor = cursor_at(table, id);
-  if (cursor == NULL) {
+  if (!cursor) {
     printf("Error: Row with id %d not found.\n", id);
     return;
   }
+
   void *row = cursor_location(cursor);
   print_row(row);
-
   free(cursor);
-
-  return;
 }
 
 // print all rows in the table
 void db_select_all(Table *table) {
   Cursor *cursor = cursor_start(table);
 
-  for (uint32_t i = 0; i < cursor->table->num_rows; i++) {
+  while (!cursor->end_of_table) {
     void *source = cursor_location(cursor);
-    cursor_advance(cursor);
     print_row(source);
+    cursor_advance(cursor);
   }
 
   free(cursor);
@@ -75,85 +67,48 @@ void db_select_all(Table *table) {
 // print a single row
 static void print_row(void *source) {
   int id;
-  char name[32];
-  char email[255];
+  char name[ROW_NAME_SIZE + 1];    // +1 for '\0'
+  char email[ROW_EMAIL_SIZE + 1];  // +1 for '\0'
 
   memcpy(&id, source, ROW_ID_SIZE);
-  memcpy(&name, source + ROW_ID_SIZE, ROW_NAME_SIZE);
-  memcpy(&email, source + ROW_ID_SIZE + ROW_NAME_SIZE, ROW_EMAIL_SIZE);
+  memcpy(name, source + ROW_ID_SIZE, ROW_NAME_SIZE);
+  name[ROW_NAME_SIZE] = '\0';  // ensure null-termination
+
+  memcpy(email, source + ROW_ID_SIZE + ROW_NAME_SIZE, ROW_EMAIL_SIZE);
+  email[ROW_EMAIL_SIZE] = '\0';  // ensure null-termination
 
   printf("(%d, %s, %s)\n", id, name, email);
 }
 
 // Save the table to disk
 void db_save_table(Table *table) {
+  if (!table || !table->pager) return;
+
   printf("Saving table to disk...\n");
-  FILE *fp = fopen("../db_file.db", "wb");
 
-  if (fp == NULL) {
-    printf("Error: Could not open file for writing.\n");
-    return;
-  }
+  // pager_close now flushes all pages to disk
+  pager_close(table->pager, table->num_rows);
 
-  uint32_t full_pages = table->num_rows / PAGE_MAX_ROWS;
-  uint32_t extra_rows = table->num_rows % PAGE_MAX_ROWS;
-
-  // Write all full pages
-  for (uint32_t i = 0; i < full_pages; i++) {
-    if (table->pages[i] != NULL) {
-      fwrite(table->pages[i], PAGE_SIZE, 1, fp);
-    }
-  }
-
-  // Write the last partial page
-  if (extra_rows > 0) {
-    if (table->pages[full_pages] != NULL) {
-      fwrite(table->pages[full_pages], ROW_SIZE, extra_rows, fp);
-    }
-  }
-
-  fclose(fp);
+  table->pager = NULL;  // avoid dangling pointer
 }
 
 // returns null on failure
 Table *db_load() {
   printf("Loading database from disk...\n");
-  FILE *fp = fopen("../db_file.db", "rb");
 
+  // Open the pager (will create file if it doesn't exist)
+  Pager *pager = pager_open("../db_file.db");
+  if (!pager) {
+    perror("Failed to open database file");
+    exit(EXIT_FAILURE);
+  }
+
+  // Create table and attach pager
   Table *table = table_new_table();
+  table->pager = pager;
 
-  if (fp == NULL) {
-    printf("No existing database found. Starting fresh.\n");
-    return table;
-  }
+  // Calculate number of rows from file length
+  table->num_rows = pager->file_length / ROW_SIZE;
 
-  // get the file size
-  // get the amount of full pages + extra rows in last page
-  // start reading the file page by page
-  fseek(fp, 0, SEEK_END);
-  long file_size = ftell(fp);
-  fseek(fp, 0, SEEK_SET);
-
-  uint32_t full_pages = file_size / PAGE_SIZE;
-  uint32_t extra_bytes = file_size % PAGE_SIZE;
-  uint32_t extra_rows = extra_bytes / ROW_SIZE;
-
-  // Read all full pages
-  for (uint32_t i = 0; i < full_pages; i++) {
-    table->pages[i] = malloc(PAGE_SIZE);
-    fread(table->pages[i], PAGE_SIZE, 1, fp);
-    table->num_rows += PAGE_MAX_ROWS;
-  }
-  // Read the last partial page
-  if (extra_rows > 0) {
-    table->pages[full_pages] = malloc(PAGE_SIZE);
-    if (table->pages[full_pages] == NULL) {
-      fclose(fp);
-      return NULL;
-    }
-    fread(table->pages[full_pages], ROW_SIZE, extra_rows, fp);
-    table->num_rows += extra_rows;
-  }
-  fclose(fp);
   return table;
 }

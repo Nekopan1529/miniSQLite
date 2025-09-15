@@ -3,6 +3,7 @@
 
 #include "../common/statement.h"
 #include "cursor.h"
+#include "pager.h"
 #include "table.h"
 
 void db_insert_row(Table* table, Row* row);

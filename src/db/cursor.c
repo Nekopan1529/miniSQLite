@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "pager.h"
+
 // create a cursor at the start of the table
 Cursor *cursor_start(Table *table) {
   Cursor *cursor = (Cursor *)malloc(sizeof(Cursor));
@@ -58,13 +60,9 @@ void *cursor_location(Cursor *cursor) {
 
   uint32_t page_num = row / PAGE_MAX_ROWS;
   uint32_t row_offset = row % PAGE_MAX_ROWS;
-  void *page = cursor->table->pages[page_num];
 
-  if (page == NULL) {
-    // Allocate page lazily
-    page = malloc(PAGE_SIZE);
-    cursor->table->pages[page_num] = page;
-  }
+  // Use pager to get the page, lazily allocating if needed
+  void *page = pager_get_page(cursor->table->pager, page_num);
 
   return (char *)page + row_offset * ROW_SIZE;
 }
@@ -90,6 +88,7 @@ void cursor_delete_row(Cursor *cursor) {
     size_t row_size = (ROW_ID_SIZE + ROW_NAME_SIZE + ROW_EMAIL_SIZE);
     memcpy(empty_row, last_row, row_size);
     memset(last_row, 0, row_size);
+    free(end);
   }
 }
 

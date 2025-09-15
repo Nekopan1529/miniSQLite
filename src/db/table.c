@@ -6,7 +6,8 @@
 // create a new table
 Table *table_new_table() {
   Table *table = (Table *)malloc(sizeof(Table));
-  table->pages[0] = NULL;
+  table->pager = (Pager *)malloc(sizeof(Pager));
+  table->pager->pages[0] = NULL;
   table->num_rows = 0;
   return table;
 }
