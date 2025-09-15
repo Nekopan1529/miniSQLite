@@ -11,10 +11,9 @@ void add_row(Table *table, Row *row) {
   void *destination = cursor_location(cursor);
   printf("Destination address: %p\n", destination);
 
-  memcpy(destination, &row->id, sizeof(int));
-  memcpy(destination + sizeof(int), row->name, sizeof(row->name));
-  memcpy(destination + sizeof(int) + sizeof(row->name), row->email,
-         sizeof(row->email));
+  memcpy(destination, &row->id, ROW_ID_SIZE);
+  memcpy(destination + ROW_ID_SIZE, row->name, ROW_NAME_SIZE);
+  memcpy(destination + ROW_ID_SIZE + ROW_NAME_SIZE, row->email, ROW_EMAIL_SIZE);
 
   table->num_rows += 1;
   free(cursor);
@@ -79,9 +78,9 @@ static void print_row(void *source) {
   char name[32];
   char email[255];
 
-  memcpy(&id, source, sizeof(int));
-  memcpy(&name, source + sizeof(int), sizeof(name));
-  memcpy(&email, source + sizeof(int) + sizeof(name), sizeof(email));
+  memcpy(&id, source, ROW_ID_SIZE);
+  memcpy(&name, source + ROW_ID_SIZE, ROW_NAME_SIZE);
+  memcpy(&email, source + ROW_ID_SIZE + ROW_NAME_SIZE, ROW_EMAIL_SIZE);
 
   printf("(%d, %s, %s)\n", id, name, email);
 }

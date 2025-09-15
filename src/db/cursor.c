@@ -55,6 +55,7 @@ void *cursor_location(Cursor *cursor) {
     printf("Error: Cursor out of bounds.\n");
     exit(EXIT_FAILURE);
   }
+
   uint32_t page_num = row / PAGE_MAX_ROWS;
   uint32_t row_offset = row % PAGE_MAX_ROWS;
   void *page = cursor->table->pages[page_num];
@@ -80,6 +81,7 @@ void cursor_delete_row(Cursor *cursor) {
     cursor->end_of_table = end_of_table;
     // if we deleted the last row, just move the cursor to the end
     cursor->row_num = cursor->table->num_rows;
+
   } else {
     Cursor *end = cursor_end(cursor->table);
     void *last_row = cursor_location(end);
@@ -93,7 +95,7 @@ void cursor_delete_row(Cursor *cursor) {
 
 void cursor_modify_row(Cursor *cursor, Row *row) {
   void *location = cursor_location(cursor);
-  memcpy(location + sizeof(int), row->name, ROW_NAME_SIZE);
-  memcpy(location + sizeof(int) + ROW_NAME_SIZE, row->email, ROW_EMAIL_SIZE);
+  memcpy(location + ROW_ID_SIZE, row->name, ROW_NAME_SIZE);
+  memcpy(location + ROW_ID_SIZE + ROW_NAME_SIZE, row->email, ROW_EMAIL_SIZE);
   return;
 }
