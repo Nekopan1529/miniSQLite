@@ -82,33 +82,12 @@ static void print_row(void *source) {
 
 // Save the table to disk
 void db_save_table(Table *table) {
-  if (!table || !table->pager) return;
-
   printf("Saving table to disk...\n");
-
-  // pager_close now flushes all pages to disk
-  pager_close(table->pager, table->num_rows);
-
-  table->pager = NULL;  // avoid dangling pointer
+  table_save(table);
 }
 
 // returns null on failure
 Table *db_load() {
   printf("Loading database from disk...\n");
-
-  // Open the pager (will create file if it doesn't exist)
-  Pager *pager = pager_open("../db_file.db");
-  if (!pager) {
-    perror("Failed to open database file");
-    exit(EXIT_FAILURE);
-  }
-
-  // Create table and attach pager
-  Table *table = table_new_table();
-  table->pager = pager;
-
-  // Calculate number of rows from file length
-  table->num_rows = pager->file_length / ROW_SIZE;
-
-  return table;
+  return table_load();
 }

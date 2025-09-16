@@ -13,4 +13,7 @@ typedef struct {
 Table* table_new_table();
 void table_free(Table* table);
 
+Table* table_load();
+void table_save(Table* table);
+
 #endif
