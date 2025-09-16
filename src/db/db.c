@@ -54,10 +54,9 @@ void db_select_by_id(Table *table, int id) {
 // print all rows in the table
 void db_select_all(Table *table) {
   Cursor *cursor = cursor_start(table);
-  void *source;
 
   while (!cursor->end_of_table) {
-    source = cursor_location(cursor);
+    void *source = cursor_location(cursor);
     print_row(source);
     cursor_advance(cursor);
   }
