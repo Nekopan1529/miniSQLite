@@ -2,9 +2,9 @@
 #define DB_H
 
 #include "../common/statement.h"
-#include "cursor.h"
-#include "pager.h"
-#include "table.h"
+#include "cursor/cursor.h"
+#include "pager/pager.h"
+#include "storage/table.h"
 
 void db_insert_row(Table* table, Row* row);
 void db_save_table(Table* table);

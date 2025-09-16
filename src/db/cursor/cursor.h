@@ -2,8 +2,8 @@
 #define CURSOR_H
 #include <stdbool.h>
 
-#include "size.h"
-#include "table.h"
+#include "../storage/size.h"
+#include "../storage/table.h"
 
 typedef struct {
   Table* table;

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "size.h"
+#include "../storage/size.h"
 
 typedef struct {
   FILE* fp;

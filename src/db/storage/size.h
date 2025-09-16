@@ -1,7 +1,7 @@
 #ifndef SIZE_H
 #define SIZE_H
 
-#include "../common/statement.h"
+#include "../../common/statement.h"
 
 #define PAGE_SIZE 4096
 #define PAGE_MAX_ROWS (PAGE_SIZE / ROW_SIZE)

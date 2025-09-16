@@ -2,7 +2,7 @@
 #define TABLE_H
 #include <stdint.h>
 
-#include "pager.h"
+#include "../pager/pager.h"
 #include "size.h"
 
 typedef struct {

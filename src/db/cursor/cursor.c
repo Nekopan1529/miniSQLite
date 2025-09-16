@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "pager.h"
+#include "../pager/pager.h"
 
 // create a cursor at the start of the table
 Cursor *cursor_start(Table *table) {
