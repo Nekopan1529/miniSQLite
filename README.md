@@ -12,6 +12,9 @@ miniSQLite is a minimal, educational SQLite-like database engine written in C. I
   - `delete <id>`: Delete a row by ID
   - `.exit`: Exit the program
 
+  ### features to add 
+  - use B+tree instead of sequence of data in a page
+
 ## Table Schema
 
 The table managed by miniSQLite has the following columns:
